@@ -1,15 +1,32 @@
-const apiKey = 'YOUR_API_KEY';
-const city = 'London';
+const apiKey = "c47cf5959d66413c84a101039250302";
 
 function callAPI() {
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+    const city = document.getElementById("cityInput").value.trim();
+    const errorMessage = document.getElementById("errorMessage");
+
+    if (!city) {
+        errorMessage.textContent = "Please enter a city name!";
+        return;
+    }
+
+    errorMessage.textContent = "";
+
+    const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}&aqi=no`;
 
     fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            document.querySelector("#weather_city").textContent = data.name || 'N/A';
-            document.querySelector("#weather_temperature").textContent = `${data.main.temp}°C` || 'N/A';
-            document.querySelector("#weather_condition").textContent = data.weather[0].description || 'N/A';
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("City not found or API error.");
+            }
+            return response.json();
         })
-        .catch(error => console.error('Error fetching data:', error));
+        .then(data => {
+            document.getElementById("weather_city").textContent = data.location.name || "N/A";
+            document.getElementById("weather_temperature").textContent = `${data.current.temp_c}°C` || "N/A";
+            document.getElementById("weather_condition").textContent = data.current.condition.text || "N/A";
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            errorMessage.textContent = "Could not fetch weather data. Please check the city name and try again.";
+        });
 }

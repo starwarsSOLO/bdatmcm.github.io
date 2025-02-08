@@ -1,14 +1,9 @@
 const person = {
-    name: "Alice",
-    age: 25,
-    hobbies: ["reading", "cycling", "coding"]
+    name: "Benedict Solo P. Dimalanta",
+    age: 20,
+    hobbies: ["basketball", "cycling", "gaming", "coding"]
 };
 
-const jsonString = JSON.stringify(person);
-console.log(jsonString);
-
-const parsedObject = JSON.parse(jsonString);
-
-console.log(parsedObject.name);
-console.log(parsedObject.age);
-console.log(parsedObject.hobbies);
+document.body.innerHTML += `<h2>Name: ${person.name}</h2>`;
+document.body.innerHTML += `<h2>Age: ${person.age}</h2>`;
+document.body.innerHTML += `<h2>Hobbies: ${person.hobbies.join(", ")}</h2>`;
